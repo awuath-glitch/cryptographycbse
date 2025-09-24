@@ -1,137 +1,221 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>SecureVault 🔐</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: #0f172a;
-      color: #f1f5f9;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
-      margin: 0;
-    }
-    .container {
-      width: 400px;
-      background: #1e293b;
-      padding: 20px;
-      border-radius: 12px;
-      box-shadow: 0 0 20px rgba(0,0,0,0.5);
-    }
-    h1, h2 {
-      text-align: center;
-    }
-    input, textarea, button {
-      width: 100%;
-      padding: 10px;
-      margin: 8px 0;
-      border: none;
-      border-radius: 6px;
-      font-size: 14px;
-    }
-    input, textarea {
-      background: #334155;
-      color: #f8fafc;
-    }
-    button {
-      background: #0ea5e9;
-      color: white;
-      font-weight: bold;
-      cursor: pointer;
-    }
-    button:hover {
-      background: #0284c7;
-    }
-    .hidden {
-      display: none;
-    }
-    .box {
-      margin-top: 20px;
-      padding: 15px;
-      background: #334155;
-      border-radius: 8px;
-    }
-    #authMsg, #ciphertext, #decrypted {
-      margin-top: 10px;
-      font-size: 14px;
-      color: #22c55e;
-      word-wrap: break-word;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SecureVault - Secure Message Encryption App</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
-  <div class="container">
-    <h1>🔐 SecureVault</h1>
-
-    <!-- Auth Section -->
-    <div id="authBox">
-      <h2>Login</h2>
-      <input type="text" id="username" placeholder="Username" required>
-      <input type="password" id="master_password" placeholder="Master Password" required>
-      <button onclick="login()">Login</button>
-      <div id="authMsg"></div>
+    <!-- Cookie Consent Banner -->
+    <div id="cookie-banner" class="cookie-banner">
+        <div class="cookie-content">
+            <p>We use cookies to enhance your experience. By continuing to visit this site, you agree to our use of cookies.</p>
+            <button id="accept-cookies" class="cookie-btn">Accept Cookies</button>
+        </div>
     </div>
 
-    <!-- App Section -->
-    <div id="appBox" class="hidden">
-      <h2>Decrypt Message</h2>
-      <input type="text" id="encrypter_code" placeholder="Encrypter Code" required>
-      <button onclick="decryptMsg()">Decrypt</button>
-      <div id="decrypted"></div>
-      <button onclick="logout()">Logout</button>
-    </div>
-  </div>
+    <!-- Header -->
+    <header class="header">
+        <nav class="navbar">
+            <div class="nav-brand">
+                <i class="fas fa-shield-alt"></i>
+                <span>SecureVault</span>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#features">Features</a></li>
+                <li><a href="#how-it-works">How It Works</a></li>
+                <li><a href="#creators">Creators</a></li>
+                <li><a href="#download">Download</a></li>
+                <li><a href="#terms">Terms</a></li>
+                <li><a href="#privacy">Privacy</a></li>
+            </ul>
+            <div class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </nav>
+    </header>
 
-  <script>
-    const API = "http://127.0.0.1:5000"; // Flask backend
+    <!-- Home Section -->
+    <section id="home" class="hero">
+        <div class="hero-content">
+            <h1>SecureVault</h1>
+            <p>Your Ultimate Secure Message Encryption Solution</p>
+            <p>Protect your messages with military-grade encryption, share securely with computer tokens, and manage global sessions seamlessly.</p>
+            <a href="#download" class="cta-btn">Download Now</a>
+        </div>
+        <div class="hero-image">
+            <i class="fas fa-lock"></i>
+        </div>
+    </section>
 
-    let username = "";
-    let master_password = "";
-    let encrypter_code = "";
+    <!-- About Section -->
+    <section id="about" class="section">
+        <div class="container">
+            <h2>About SecureVault</h2>
+            <p>SecureVault is a powerful desktop application designed for secure message encryption and global sharing. Built with advanced cryptography and integrated with Supabase for real-time synchronization, it ensures your communications remain private and accessible across devices.</p>
+            <p>Whether you're sharing sensitive information or managing multi-device sessions, SecureVault provides a robust, user-friendly platform for all your security needs.</p>
+        </div>
+    </section>
 
-    // ---- Auth ----
-    function login() {
-      username = document.getElementById("username").value;
-      master_password = document.getElementById("master_password").value;
-      fetch(API + "/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ username, password: master_password })
-      }).then(r => r.json()).then(data => {
-        if (data.success) {
-          // Save credentials to localStorage for decrypt page
-          localStorage.setItem("username", username);
-          localStorage.setItem("master_password", master_password);
-          // Redirect to decrypt page
-          window.location.href = "decrypt.html";
-        } else {
-          document.getElementById("authMsg").innerText = data.message;
-        }
-      });
-    }
+    <!-- Features Section -->
+    <section id="features" class="section bg-light">
+        <div class="container">
+            <h2>Key Features</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <i class="fas fa-key"></i>
+                    <h3>AES-256 Encryption</h3>
+                    <p>Military-grade encryption to protect your messages from unauthorized access.</p>
+                </div>
+                <div class="feature-card">
+                    <i class="fas fa-ticket-alt"></i>
+                    <h3>Computer Token Generation</h3>
+                    <p>Generate secure tokens for sharing encrypted messages with trusted recipients.</p>
+                </div>
+                <div class="feature-card">
+                    <i class="fas fa-users"></i>
+                    <h3>Global Messaging</h3>
+                    <p>Share messages globally with priority levels and real-time synchronization.</p>
+                </div>
+                <div class="feature-card">
+                    <i class="fas fa-fingerprint"></i>
+                    <h3>Device Fingerprinting</h3>
+                    <p>Track and manage sessions across multiple devices for enhanced security.</p>
+                </div>
+                <div class="feature-card">
+                    <i class="fas fa-chart-line"></i>
+                    <h3>Global Status Dashboard</h3>
+                    <p>Monitor active sessions, logout from all devices, and view comprehensive status.</p>
+                </div>
+                <div class="feature-card">
+                    <i class="fas fa-user-plus"></i>
+                    <h3>User Management</h3>
+                    <p>Secure registration, login, and session management with Supabase integration.</p>
+                </div>
+            </div>
+        </div>
+    </section>
 
-    function logout() {
-      username = "";
-      master_password = "";
-      encrypter_code = "";
-      document.getElementById("appBox").classList.add("hidden");
-      document.getElementById("authBox").classList.remove("hidden");
-    }
+    <!-- How It Works Section -->
+    <section id="how-it-works" class="section">
+        <div class="container">
+            <h2>How It Works</h2>
+            <div class="steps">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <h3>Register/Login</h3>
+                    <p>Create a new account or log in with your username and master password.</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <h3>Encrypt Messages</h3>
+                    <p>Enter your message and generate a secure computer token for sharing.</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <h3>Share Tokens</h3>
+                    <p>Share the computer token with recipients who can decrypt using your credentials.</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">4</div>
+                    <h3>Global Messaging</h3>
+                    <p>Send and receive messages across devices with real-time updates.</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">5</div>
+                    <h3>Monitor Status</h3>
+                    <p>Use the global status dashboard to manage sessions and ensure security.</p>
+                </div>
+            </div>
+        </div>
+    </section>
 
-    // ---- Decrypt ----
-    function decryptMsg() {
-      const encrypter_code = document.getElementById("encrypter_code").value;
-      fetch(API + "/decrypt", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ username, master_password, token: encrypter_code })
-      }).then(r => r.json()).then(data => {
-        document.getElementById("decrypted").innerText = data.plaintext || "Error: " + data.message;
-      });
-    }
-  </script>
+    <!-- Creators Section -->
+    <section id="creators" class="section bg-light">
+        <div class="container">
+            <h2>Creators & Developers</h2>
+            <div class="creators-info">
+                <div class="creator-card">
+                    <h3>Institution</h3>
+                    <p><strong>SHREE SWAMINARAYAN GURUKUL INTERNATIONAL SCHOOL HYDERABAD</strong></p>
+                    <p>A premier educational institution fostering innovation and technical excellence.</p>
+                </div>
+                <div class="creator-card">
+                    <h3>Developers</h3>
+                    <ul>
+                        <li><strong>Saathvik.B</strong> - Lead Developer</li>
+                        <li><strong>Manideep Sai</strong> - Security Specialist</li>
+                        <li><strong>Nihith.kepp</strong> - UI/UX Developer</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Download Section -->
+    <section id="download" class="section">
+        <div class="container">
+            <h2>Download SecureVault</h2>
+            <p>Get the desktop application and start securing your messages today!</p>
+            <a href="dist/SecureVault.exe" download class="download-btn">
+                <i class="fas fa-download"></i>
+                Download SecureVault.exe
+            </a>
+            <p class="download-note">Compatible with Windows. Requires Python dependencies (see requirements_supabase.txt).</p>
+        </div>
+    </section>
+
+    <!-- Terms and Conditions -->
+    <section id="terms" class="section bg-light">
+        <div class="container">
+            <h2>Terms and Conditions</h2>
+            <div class="legal-content">
+                <p>By downloading and using SecureVault, you agree to the following terms:</p>
+                <ul>
+                    <li>Use the software for lawful purposes only.</li>
+                    <li>Do not attempt to reverse-engineer or modify the application.</li>
+                    <li>The developers are not responsible for misuse of the software.</li>
+                    <li>SecureVault is provided "as is" without warranties.</li>
+                    <li>Users are responsible for maintaining their master passwords securely.</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- Privacy Policy -->
+    <section id="privacy" class="section">
+        <div class="container">
+            <h2>Privacy Policy</h2>
+            <div class="legal-content">
+                <p>We are committed to protecting your privacy:</p>
+                <ul>
+                    <li>All encryption/decryption occurs locally on your device.</li>
+                    <li>Supabase stores only encrypted data and metadata.</li>
+                    <li>We do not collect personal information beyond what's necessary for functionality.</li>
+                    <li>Device fingerprinting is used solely for session management.</li>
+                    <li>Your master password never leaves your device.</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2023 SHREE SWAMINARAYAN GURUKUL INTERNATIONAL SCHOOL HYDERABAD. All rights reserved.</p>
+            <p>Developed by Saathvik.B, Manideep Sai, and Nihith.kepp</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
 </body>
 </html>
